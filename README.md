@@ -1,73 +1,65 @@
-# React + TypeScript + Vite
+# Entre Sites
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma para conectar e gerenciar múltiplos sites com elegância.
 
-Currently, two official plugins are available:
+## 🚀 Rodando localmente
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Pré-requisitos
+- [Node.js 20+](https://nodejs.org/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-## React Compiler
+### Com Docker (recomendado)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Desenvolvimento (hot-reloading em http://localhost:5173)
+docker compose up
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Produção local (Nginx em http://localhost:8080)
+docker compose --profile prod up app-prod
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Sem Docker
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm install
+npm run dev        # Desenvolvimento
+npm run build      # Build de produção
+npm run preview    # Preview do build
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🔄 CI/CD Pipeline
+
+O pipeline de deploy é automático via **GitHub Actions**:
+
+1. **Push para `main`** → aciona o workflow
+2. **Build** → Vite gera os assets em `dist/`
+3. **Docker** → imagem publicada no Docker Hub com tag `latest` e SHA do commit
+4. **Deploy FTP** → assets enviados para `ftp.entresites.com → /public_html/`
+
+### Secrets necessários (GitHub → Settings → Secrets → Actions)
+
+| Secret | Descrição |
+|--------|-----------|
+| `DOCKERHUB_USERNAME` | Seu usuário no Docker Hub |
+| `DOCKERHUB_TOKEN` | Token de acesso do Docker Hub |
+| `FTP_HOST` | `ftp.entresites.com` |
+| `FTP_USER` | `EntreSites` |
+| `FTP_PASS` | Senha FTP |
+| `FTP_REMOTE_ROOT` | `/public_html/` |
+
+## 🏗️ Estrutura do projeto
+
+```
+entre-sites/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml     # Pipeline CI/CD
+├── src/
+│   ├── App.tsx            # Componente principal
+│   ├── App.css            # Estilos da landing page
+│   └── index.css          # Design system global
+├── Dockerfile             # Multi-stage build
+├── docker-compose.yml     # Ambiente de desenvolvimento
+├── nginx.conf             # Configuração do servidor web
+└── vite.config.ts         # Configuração do Vite
 ```

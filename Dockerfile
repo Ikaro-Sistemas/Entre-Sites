@@ -1,20 +1,32 @@
-# Use an official Node.js runtime as a parent image
-FROM node:20-slim
+# Use Node 20 slim para o build
+FROM node:20-slim AS builder
 
-# Set the working directory in the container
 WORKDIR /app
-
-# Copy package.json and package-lock.json
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+RUN npm ci
 COPY . .
+RUN npm run build
 
-# Expose the port Vite runs on
+# Imagem final leve com Nginx para servir os arquivos estáticos
+FROM nginx:alpine AS production
+
+# Copia os assets buildados
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copia configuração customizada do Nginx
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+# ────────────────────────────────────────────────────────────────────────
+# Estágio de desenvolvimento (mantém hot-reloading)
+# Use: docker compose up
+FROM node:20-slim AS development
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
 EXPOSE 5173
-
-# Start the application
 CMD ["npm", "run", "dev", "--", "--host"]
