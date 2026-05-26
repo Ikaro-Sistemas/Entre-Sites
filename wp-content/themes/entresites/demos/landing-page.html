@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplo Prático: Landing Page SaaS - Entre Sites</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+    
+    :root {
+      --bg: #090b0f;
+      --card-bg: rgba(18, 22, 31, 0.6);
+      --accent-cyan: hsl(190, 100%, 50%);
+      --accent-blue: hsl(210, 100%, 55%);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --border: rgba(255,255,255,0.08);
+      --font: 'Outfit', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header Demo info */
+    .demo-bar {
+      background: linear-gradient(90deg, #1e1b4b, #311042);
+      color: #fff;
+      text-align: center;
+      padding: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .demo-bar a {
+      color: var(--accent-cyan);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Custom Header SaaS */
+    .saas-header {
+      padding: 20px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(9, 11, 15, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo span {
+      color: var(--accent-cyan);
+    }
+
+    .cta-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #000;
+      padding: 10px 22px;
+      font-weight: 700;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 5% 100px 5%;
+      text-align: center;
+      position: relative;
+    }
+
+    .badge {
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      padding: 5px 15px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 25px;
+    }
+
+    .hero h1 {
+      font-size: 54px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff, #9ca3af);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 40px auto;
+    }
+
+    /* Interactive latent chart */
+    .chart-container {
+      max-width: 800px;
+      margin: 40px auto 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      backdrop-filter: blur(10px);
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .chart-title {
+      font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .chart-status {
+      font-size: 12px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chart-status span {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .chart-visual {
+      height: 200px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .chart-bar {
+      flex-grow: 1;
+      background: linear-gradient(180deg, var(--accent-cyan), rgba(0, 212, 255, 0.1));
+      border-radius: 4px 4px 0 0;
+      transition: height 0.4s ease;
+      min-height: 10px;
+      position: relative;
+    }
+
+    .chart-bar::after {
+      content: attr(data-value) 'ms';
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      color: var(--text-muted);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .chart-bar:hover::after {
+      opacity: 1;
+    }
+
+    /* Benefits Section */
+    .features {
+      padding: 80px 5%;
+      background: rgba(255,255,255,0.01);
+      border-top: 1px solid var(--border);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1200px;
+      margin: 40px auto 0 auto;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-cyan);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: var(--accent-cyan);
+    }
+
+    .feature-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Converter Section Form */
+    .convert-form {
+      padding: 80px 5%;
+      border-top: 1px solid var(--border);
+    }
+
+    .form-box {
+      max-width: 500px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      backdrop-filter: blur(12px);
+      text-align: center;
+    }
+
+    .form-box h2 {
+      margin-bottom: 15px;
+      color: #fff;
+    }
+
+    .form-box p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      color: #fff;
+      font-family: var(--font);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+    }
+
+    .confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 38px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .form-box { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Demo instruction top bar -->
+  <div class="demo-bar">
+    <span>💡 <strong>Ambiente de Teste:</strong> Exemplo Prático de Landing Page da <strong>Entre Sites</strong>.</span>
+    <a href="../index.html">← Voltar para Página Inicial</a>
+  </div>
+
+  <!-- SaaS Header -->
+  <header class="saas-header">
+    <div class="logo">
+      ⚡ Cloud<span>Flow</span>
+    </div>
+    <a href="#solicitar" class="cta-btn">Criar Conta Grátis</a>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <span class="badge">Lançamento de Produto</span>
+    <h1>Orquestração de Bancos de Dados <br><span>Sem Servidor e em Tempo Real</span></h1>
+    <p>Conecte seus dados em minutos, monitore latências ao vivo e escale para milhões de requisições globais de forma automatizada e com custo zero.</p>
+    <a href="#solicitar" class="cta-btn" style="font-size: 18px; padding: 15px 35px;">Testar Gratuitamente</a>
+
+    <!-- Interactive chart simulating API database latencies in real-time -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <div class="chart-title">Latência do Banco de Dados CloudFlow (Ms)</div>
+        <div class="chart-status">
+          <span></span> Monitorando Ativo
+        </div>
+      </div>
+      <div class="chart-visual" id="latency-chart">
+        <!-- Bars will be inserted/animated dynamically by JS -->
+      </div>
+      <div style="font-size: 12px; color: var(--text-muted); margin-top: 15px; text-align: left; display: flex; justify-content: space-between;">
+        <span>Operando com 99.99% de SLA</span>
+        <span id="avg-latency" style="color: var(--accent-cyan); font-weight: bold;">Média: 14ms</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits Section -->
+  <section class="features">
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚀</div>
+        <h3>Carregamento < 1s</h3>
+        <p>Desenvolvimento focado em performance absoluta, garantindo velocidade incrível de ponta a ponta.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Segurança Nativa</h3>
+        <p>Banco de dados protegido com criptografia TLS 1.3 de nível militar e backups periódicos.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📉</div>
+        <h3>Sem Custo Fixo</h3>
+        <p>Pague exclusivamente pelo tráfego e requisições consumidas, sem taxas mensais exorbitantes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form Interactive Section -->
+  <section class="convert-form" id="solicitar">
+    <div class="form-box">
+      <h2>Iniciar Integração Grátis</h2>
+      <p>Crie sua chave de API hoje mesmo e ganhe R$ 200,00 em créditos de consumo imediato.</p>
+      <form id="saas-demo-form">
+        <div class="form-group">
+          <label for="reg-name">Seu Nome</label>
+          <input type="text" id="reg-name" placeholder="Ex: Ikaro Roger" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Seu Melhor E-mail</label>
+          <input type="email" id="reg-email" placeholder="Ex: ikarosistemas@gmail.com" required>
+        </div>
+        <button type="submit" class="submit-btn">Gerar Chave de API</button>
+      </form>
+    </div>
+  </section>
+
+  <canvas class="confetti-canvas" id="confetti"></canvas>
+
+  <script>
+    // --- REALTIME LATENCY SIMULATOR ---
+    const chart = document.getElementById('latency-chart');
+    const avgLabel = document.getElementById('avg-latency');
+    const barCount = 14;
+    const bars = [];
+    
+    // Create initial bars
+    for(let i=0; i<barCount; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'chart-bar';
+      const initialValue = Math.floor(Math.random() * 25) + 8;
+      bar.style.height = `${initialValue * 5}%`;
+      bar.setAttribute('data-value', initialValue);
+      chart.appendChild(bar);
+      bars.push(bar);
+    }
+
+    // Dynamic latency shifting
+    setInterval(() => {
+      // Shift left
+      const firstBarHeight = bars[0].style.height;
+      const firstBarVal = bars[0].getAttribute('data-value');
+      
+      for(let i=0; i<barCount-1; i++) {
+        bars[i].style.height = bars[i+1].style.height;
+        bars[i].setAttribute('data-value', bars[i+1].getAttribute('data-value'));
+      }
+      
+      // Randomize last bar
+      const newVal = Math.floor(Math.random() * 28) + 6;
+      bars[barCount-1].style.height = `${newVal * 5}%`;
+      bars[barCount-1].setAttribute('data-value', newVal);
+      
+      // Calc new average
+      let sum = 0;
+      bars.forEach(b => {
+        sum += parseInt(b.getAttribute('data-value'));
+      });
+      const avg = Math.round(sum / barCount);
+      avgLabel.innerText = `Média: ${avg}ms`;
+    }, 1000);
+
+    // --- FORM CONFETTI CELEBRATION ---
+    const form = document.getElementById('saas-demo-form');
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiActive = false;
+    let particles = [];
+
+    // Resize canvas
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class ConfettiParticle {
+      constructor() {
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
+        this.size = Math.random() * 8 + 4;
+        this.color = `hsl(${Math.random() * 360}, 90%, 60%)`;
+        this.speedX = Math.random() * 15 - 7.5;
+        this.speedY = Math.random() * -15 - 5;
+        this.gravity = 0.3;
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 10 - 5;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.speedY += this.gravity;
+        this.rotation += this.rotationSpeed;
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate((this.rotation * Math.PI) / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+        ctx.restore();
+      }
+    }
+
+    function animateConfetti() {
+      if(!confettiActive && particles.length === 0) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach((p, idx) => {
+        p.update();
+        p.draw();
+        if(p.y > canvas.height) {
+          particles.splice(idx, 1);
+        }
+      });
+      requestAnimationFrame(animateConfetti);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('reg-name').value;
+      const email = document.getElementById('reg-email').value;
+      
+      // Success State UI
+      form.innerHTML = `
+        <div style="padding: 20px 0;">
+          <div style="font-size: 50px; margin-bottom: 15px;">🎉</div>
+          <h3 style="color: #fff; margin-bottom: 10px;">Chave Gerada para ${name}!</h3>
+          <p style="color: var(--accent-cyan); font-weight: bold; font-family: monospace; background: rgba(0,212,255,0.05); padding: 12px; border: 1px dashed var(--accent-cyan); border-radius: 6px; font-size: 13px;">cf_live_tk_83912903_ikaro</p>
+          <p style="color: var(--text-muted); font-size: 13px; margin-top: 15px;">Enviamos as credenciais completas para <strong>${email}</strong>.</p>
+        </div>
+      `;
+
+      // Trigger Confetti
+      confettiActive = true;
+      particles = [];
+      for(let i=0; i<150; i++) {
+        particles.push(new ConfettiParticle());
+      }
+      animateConfetti();
+      
+      // Stop spawning after a bit
+      setTimeout(() => {
+        confettiActive = false;
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
