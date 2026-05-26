@@ -1,0 +1,23 @@
+# WordPress and Docker
+wp-data/
+db_data/
+wp-content/uploads/
+wp-content/cache/
+*.log
+.htaccess
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

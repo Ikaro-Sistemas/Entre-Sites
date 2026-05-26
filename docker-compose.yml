@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.5
+    container_name: entresites-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspassword
+      MYSQL_ROOT_PASSWORD: dbrootpassword
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - entresites-network
+
+  wordpress:
+    image: wordpress:latest
+    container_name: entresites-wordpress
+    restart: always
+    ports:
+      - "8090:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspassword
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp-content:/var/www/html/wp-content
+    depends_on:
+      - db
+    networks:
+      - entresites-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: entresites-phpmyadmin
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: db
+      PMA_ARBITRARY: 1
+    depends_on:
+      - db
+    networks:
+      - entresites-network
+
+networks:
+  entresites-network:
+    driver: bridge

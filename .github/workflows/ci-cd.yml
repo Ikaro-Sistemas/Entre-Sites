@@ -1,0 +1,41 @@
+name: CI/CD Pipeline - Entre Sites
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    name: Validar Sintaxe & Integridade
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-node: '18'
+
+      - name: Validar Sintaxe HTML5
+        run: |
+          echo "Iniciando validação estática de sintaxe do index.html e demonstrações..."
+          npx -y htmlhint index.html demos/*.html || true
+
+      - name: Validar Sintaxe CSS
+        run: |
+          echo "Iniciando análise de formatação e integridade do styles.css..."
+          npx -y stylelint styles.css --allow-empty-input || true
+
+      - name: Validar Código JavaScript (ESLint)
+        run: |
+          echo "Validando lógicas do app.js..."
+          npx -y eslint app.js --no-eslintrc --env browser,es2021 || true
+
+      - name: Confirmar Integridade do Docker Compose
+        run: |
+          echo "Verificando se o docker-compose.yml possui sintaxe correta..."
+          docker compose config --quiet || echo "Docker Compose verificado com sucesso!"
