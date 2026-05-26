@@ -6,7 +6,7 @@
   <meta name="description" content="<?php bloginfo( 'description' ); ?>">
   <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?>>\n<div class=\"cursor-glow-layer\"></div>
 
   <!-- --- HEADER NAVIGATION --- -->
   <header>
@@ -44,7 +44,7 @@
               <span></span>
               <span></span>
             </div>
-            <span style="font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--accent-purple); letter-spacing: 1px;">Status da Operação</span>
+            <span style=\"font-size: 11px; font-weight: bold; text-transform: uppercase; color: var(--accent-purple); letter-spacing: 1px;\">Transforme sua ideia em sucesso digital!</span>
           </div>
           <div class="visual-card-body">
             <div class="visual-card-title">Vendas Sincronizadas</div>
@@ -101,7 +101,7 @@
             <div class="product-price-box">
               <div class="product-price-label">Investimento Único</div>
               <div class="product-price-val">R$ 1.621,00</div>
-              <div class="product-price-sub">Equivalente a 1 Salário Mínimo</div>
+              
             </div>
 
             <ul class="product-features-list">
@@ -167,7 +167,7 @@
             <div class="product-price-box">
               <div class="product-price-label">Investimento Único</div>
               <div class="product-price-val">R$ 8.105,00</div>
-              <div class="product-price-sub">Equivalente a 5 Salários Mínimos</div>
+              
             </div>
 
             <ul class="product-features-list">
@@ -237,7 +237,7 @@
             <div class="product-price-box">
               <div class="product-price-label">Investimento Único</div>
               <div class="product-price-val">R$ 17.831,00</div>
-              <div class="product-price-sub">Equivalente a 11 Salários Mínimos</div>
+              
             </div>
 
             <ul class="product-features-list">
@@ -309,22 +309,7 @@
         <h2>Vamos Iniciar o Seu Projeto?</h2>
         <p>Preencha o formulário rápido ao lado ou entre em contato pelos nossos canais diretos de atendimento para agendar uma reunião comercial.</p>
         
-        <div class="contact-details">
-          <div class="contact-item">
-            <div class="contact-item-icon">📧</div>
-            <div class="contact-item-text">
-              <span>E-mail Direto</span>
-              <strong>ikarosistemas@gmail.com</strong>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon">💬</div>
-            <div class="contact-item-text">
-              <span>WhatsApp de Atendimento</span>
-              <strong>+55 (33) 99948-3324</strong>
-            </div>
-          </div>
-        </div>
+        
       </div>
 
       <div class="glass-card">
@@ -348,9 +333,9 @@
             <label for="form-product">Solução de Interesse</label>
             <select id="form-product" required>
               <option value="" disabled selected>Selecione um produto</option>
-              <option value="Landing Page">Páginas Profissionais (1 Salário Mínimo)</option>
-              <option value="E-Commerce">E-Commerce Completo (5 Salários Mínimos)</option>
-              <option value="ERP Multi-lojas">Multi-Lojas & Sistema ERP (11 Salários Mínimos)</option>
+              <option value="Landing Page">Páginas Profissionais</option>
+              <option value="E-Commerce">E-Commerce Completo</option>
+              <option value="ERP Multi-lojas">Multi-Lojas & Sistema ERP</option>
             </select>
           </div>
 
@@ -369,16 +354,11 @@
   <footer>
     <div class="container">
       <p>© 2026 Entre Sites - Desenvolvimento de Plataformas Web de Alta Performance. Todos os direitos reservados.</p>
-      <p>Desenvolvido com tecnologia de ponta. Contato: <a href="mailto:ikarosistemas@gmail.com">ikarosistemas@gmail.com</a></p>
     </div>
   </footer>
 
   <!-- --- FLOATING WHATSAPP BUTTON --- -->
-  <div class="whatsapp-float">
-    <svg fill="currentColor" viewBox="0 0 24 24">
-      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.197 1.45 4.817 1.451 5.424 0 9.835-4.394 9.838-9.799.002-2.618-1.01-5.08-2.857-6.93C16.598 2.025 14.137.994 11.52.994c-5.43 0-9.843 4.394-9.847 9.8c0 1.688.444 3.337 1.288 4.796L1.93 21.034l5.632-1.477c-1.492.813-2.316.634-1.492.813z"></path>
-    </svg>
-  </div>
+  <div class=\"floating-dock\">\n  <a href=\"https://wa.me/5533999483324?text=Ol%C3%A1!%20Visitei%20o%20site%20da%20Entre%20Sites%20e%20gostaria%20de%20saber%20mais.\" target=\"_blank\" class=\"dock-btn whatsapp\">\n    <svg fill=\"currentColor\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\"><path d=\"M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.197 1.45 4.817 1.451 5.424 0 9.835-4.394 9.838-9.799.002-2.618-1.01-5.08-2.857-6.93C16.598 2.025 14.137.994 11.52.994c-5.43 0-9.843 4.394-9.847 9.8c0 1.688.444 3.337 1.288 4.796L1.93 21.034l5.632-1.477c-1.492.813-2.316.634-1.492.813z\"/></svg>\n  </a>\n  <a href=\"mailto:ikarosistemas@gmail.com\" class=\"dock-btn email\">\n    <svg fill=\"currentColor\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\"><path d=\"M0 4a2 2 0 012-2h20a2 2 0 012 2v16a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2 0l10 7 10-7H2z\"/></svg>\n  </a>\n</div>
 
   <?php wp_footer(); ?>
 </body>
