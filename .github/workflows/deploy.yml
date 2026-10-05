@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: 🚚 Obter código do repositório
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
       - name: 🔍 Validar Credenciais de Deploy
         run: |
@@ -33,26 +31,44 @@ jobs:
           fi
           echo "✅ Credenciais detectadas com sucesso!"
 
-      - name: 🚀 Subir arquivos para o servidor HostGator (public_html)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
-          server-dir: ${{ secrets.FTP_REMOTE_ROOT || 'public_html/' }}
-          protocol: ftp
-          port: 21
-          timeout: 90000
-          log-level: verbose
-          dangerous-clean-slate: false
-          exclude: |
-            **/.git*
-            **/.git*/**
-            README.md
-            .github/**
-            .gitignore
+      - name: 📦 Instalar LFTP (Ferramenta Ultra Estável de FTP)
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y lftp
+
+      - name: 🚀 Sincronizar Arquivos com HostGator
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
+          FTP_DIR: ${{ secrets.FTP_REMOTE_ROOT || 'public_html' }}
+        run: |
+          echo "🌐 Conectando a $FTP_HOST..."
+          # Remove barras do início e fim do diretório
+          CLEAN_DIR=$(echo "$FTP_DIR" | sed 's|^/||;s|/$||')
+          if [ -z "$CLEAN_DIR" ]; then CLEAN_DIR="public_html"; fi
+          
+          echo "📁 Diretório de destino: $CLEAN_DIR"
+          
+          lftp -c "
+            set ftp:ssl-allow yes;
+            set ftp:ssl-force no;
+            set ftp:ssl-protect-data no;
+            set ssl:verify-certificate no;
+            set ftp:passive-mode true;
+            set net:timeout 30;
+            set net:max-retries 3;
+            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
+            mkdir -p $CLEAN_DIR;
+            mirror --reverse --verbose --delete-first \
+              --exclude-glob .git* \
+              --exclude-glob .git/** \
+              --exclude-glob .github/** \
+              --exclude-glob README.md \
+              --exclude-glob .gitignore \
+              ./ $CLEAN_DIR/
+          "
 
       - name: ✅ Confirmação de Sucesso
         run: |
-          echo "🎉 Deploy finalizado com sucesso para HostGator!"
+          echo "🎉 Deploy finalizado com sucesso para a HostGator!"
           echo "🌐 Acesse: https://entresites.com"
