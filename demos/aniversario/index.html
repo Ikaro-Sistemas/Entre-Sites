@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Anos - Alyce Rios do Carmo | Convite Real</title>
+
+    <!-- Meta tags SEO e Redes Sociais -->
+    <meta name="description"
+        content="Você está convidado para a inesquecível celebração de 15 Anos da Princesa Alyce Rios do Carmo em Boston, EUA. Confirme sua presença!">
+    <meta property="og:title" content="15 Anos - Alyce Rios do Carmo | Convite de Gala">
+    <meta property="og:description"
+        content="Dia 15 de Maio de 2027 no Fairmont Copley Plaza Grand Ballroom em Boston. Venha celebrar conosco!">
+    <meta property="og:image" content="assets/alyce_portrait.png">
+    <meta property="og:type" content="website">
+
+    <!-- Fonts do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome para Ícones de Gala -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Estilos Personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+<div style="background:linear-gradient(90deg,#0a0f1e,#1e293b);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:999999;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="background:#2563eb;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">DEMO ENTRE SITES</span>
+    <span style="font-weight:600;">Convite Real 15 Anos (Alyce Rios)</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="../../index.html" style="color:#94a3b8;text-decoration:none;display:flex;align-items:center;gap:4px;transition:color 0.2s;">
+      <i class="fas fa-arrow-left"></i> Voltar ao Entre Sites
+    </a>
+    <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Adorei%20o%20Convite%20Real%20de%2015%20Anos%20e%20quero%20um%20site%20nesse%20estilo!" target="_blank" style="background:#25d366;color:#fff;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 2px 10px rgba(37,211,102,0.3);">
+      <i class="fab fa-whatsapp"></i> Quero um Site Assim
+    </a>
+  </div>
+</div>
+
+    <!-- Fundo de Partículas Interativas (Pétalas de Rosa e Brilhos) -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Efeito de Brilho de Fundo -->
+    <div class="bg-ambient"></div>
+
+    <!-- Botão Flutuante de Controle de Música de Fundo -->
+    <button id="audioControlBtn" class="audio-control-btn" title="Alternar Música de Fundo Encantada"
+        aria-label="Música de fundo">
+        <i id="audioIcon" class="fas fa-volume-mute"></i>
+    </button>
+
+    <!-- ==========================================================================
+         1. TELA DE ENVELOPE REAL INTERATIVO
+         ========================================================================== -->
+    <div id="envelopeScreen" class="envelope-screen">
+        <div id="envelopeWrapper" class="envelope-wrapper" onclick="openRoyalInvitation()" role="button" tabindex="0"
+            aria-label="Abrir convite real de 15 anos">
+            <div class="envelope-box">
+                <div class="envelope-flap"></div>
+                <div class="wax-seal">
+                    <span class="crown">👑</span>
+                    <span class="monogram">A</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="envelope-title">Meus 15 Anos</div>
+        <h1 class="envelope-name">Alyce Rios do Carmo</h1>
+        <div class="envelope-hint">
+            <i class="fas fa-hand-pointer"></i> Toque no selo de ouro para abrir o convite
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         2. CONTAINER PRINCIPAL DO CONVITE
+         ========================================================================== -->
+    <main class="app-container">
+        <div id="invitationContent" class="invitation-content">
+
+            <!-- CARTÃO HERO PRINCIPAL -->
+            <section class="hero-card">
+                <div class="tiara-icon">👑</div>
+                <div class="hero-subtitle">Você é nosso convidado de honra para os</div>
+                <h1 class="hero-name">15 Anos de Alyce</h1>
+
+                <div class="hero-age-badge">
+                    <i class="fas fa-star" style="font-size: 0.8rem; color: var(--primary-gold);"></i>
+                    <span>15 DE MAIO DE 2027</span>
+                    <i class="fas fa-star" style="font-size: 0.8rem; color: var(--primary-gold);"></i>
+                </div>
+
+                <!-- Portrait da Aniversariante -->
+                <div class="portrait-container">
+                    <div class="portrait-frame">
+                        <img src="assets/alyce_real.jpg" alt="Princesa Alyce Rios do Carmo" loading="eager">
+                    </div>
+                </div>
+
+                <p class="hero-quote">
+                    "Há 15 anos um sonho de amor começou, e agora chegou o momento de vivenciar o meu conto de fadas e
+                    celebrar o brilho dessa nova fase ao lado das pessoas que mais amo!"
+                </p>
+                <div
+                    style="font-family: var(--font-script); font-size: 2.2rem; color: var(--gold-light); margin-top: 10px;">
+                    ~ Alyce Rios do Carmo ~
+                </div>
+            </section>
+
+            <!-- CONTAGEM REGRESSIVA -->
+            <section style="margin-bottom: 45px;">
+                <h2 class="section-title">
+                    <span>Contagem Regressiva</span>
+                </h2>
+                <div class="timer-grid">
+                    <div class="timer-box">
+                        <div id="days" class="timer-number">00</div>
+                        <div class="timer-label">Dias</div>
+                    </div>
+                    <div class="timer-box">
+                        <div id="hours" class="timer-number">00</div>
+                        <div class="timer-label">Horas</div>
+                    </div>
+                    <div class="timer-box">
+                        <div id="minutes" class="timer-number">00</div>
+                        <div class="timer-label">Minutos</div>
+                    </div>
+                    <div class="timer-box">
+                        <div id="seconds" class="timer-number">00</div>
+                        <div class="timer-label">Segundos</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button onclick="addToGoogleCalendar()" class="btn-royal btn-secondary-royal"
+                        style="max-width: 320px;">
+                        <i class="far fa-calendar-plus"></i> Salvar Data na Agenda
+                    </button>
+                </div>
+            </section>
+
+            <!-- DETALHES DO EVENTO E LOCALIZAÇÃO (BOSTON, EUA) -->
+            <section class="details-grid">
+                <!-- CARD DE DATA E HORÁRIO -->
+                <div class="detail-card">
+                    <div>
+                        <div class="detail-icon">
+                            <i class="far fa-clock"></i>
+                        </div>
+                        <h3>Data & Horário</h3>
+                        <p>
+                            <strong>Sábado, 15 de Maio de 2027</strong><br>
+                            Recepção Real a partir das <strong>19:30h</strong> (Horário de Boston - EDT)
+                        </p>
+
+                        <div style="margin-top: 20px;">
+                            <div class="detail-icon" style="font-size: 1.8rem;">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>Traje de Gala Princesa</h3>
+                            <p>
+                                <strong>Esporte Fino / Gala Regal</strong><br>
+                                Venha radiante para uma noite mágica e inesquecível!
+                            </p>
+                            <div class="dress-code-palette">
+                                <span style="font-size: 0.8rem; color: var(--pink-accent);">Paleta sugerida:</span>
+                                <div class="color-swatch" style="background: #b76e79;" title="Rose Gold"></div>
+                                <div class="color-swatch" style="background: #f8e1e7;" title="Blush Pink"></div>
+                                <div class="color-swatch" style="background: #d4af37;" title="Ouro Real"></div>
+                                <div class="color-swatch" style="background: #2b1820;" title="Bordô Profundo"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD DO SALÃO EM BOSTON -->
+                <div class="detail-card">
+                    <div>
+                        <div class="detail-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Local da Celebração</h3>
+                        <div class="venue-image-box">
+                            <img src="assets/boston_ballroom.png" alt="Grand Ballroom Fairmont Copley Plaza Boston">
+                        </div>
+                        <p>
+                            <strong>The Fairmont Copley Plaza - Grand Ballroom</strong><br>
+                            138 St James Ave, Boston, MA 02116 - Estados Unidos
+                        </p>
+
+                        <!-- Embedded Google Maps -->
+                        <div class="map-box">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2948.777011928096!2d-71.07767112347102!3d42.34731307119409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e37a0d421d0169%3A0x7d6f54c95f9fdfa1!2sFairmont%20Copley%20Plaza%2C%20Boston!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr"
+                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+                        <a href="https://maps.google.com/?q=The+Fairmont+Copley+Plaza+138+St+James+Ave+Boston+MA+02116"
+                            target="_blank" class="btn-royal">
+                            <i class="fas fa-directions"></i> Abrir no GPS / Google Maps
+                        </a>
+                        <button onclick="copyAddress()" class="btn-royal btn-secondary-royal">
+                            <i class="far fa-copy"></i> Copiar Endereço Completo
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONFIRMAÇÃO DE PRESENÇA (RSVP) -->
+            <section class="rsvp-section" id="rsvp">
+                <div class="tiara-icon" style="font-size: 2.2rem;">💌</div>
+                <h2 class="section-title" style="margin-bottom: 10px;">
+                    <span>Confirmar Presença</span>
+                </h2>
+                <p style="color: var(--pink-blush); font-size: 0.95rem;">
+                    Sua presença tornará esse sonho completo. Por favor, confirme até 01/05/2027.
+                </p>
+
+                <form id="rsvpForm" class="rsvp-form">
+                    <div class="form-group">
+                        <label for="guestName"><i class="fas fa-user"></i> Seus Nomes / Família *</label>
+                        <input type="text" id="guestName" class="form-control" placeholder="Ex: Maria & João Silva"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-check-circle"></i> Você poderá comparecer?</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="attendance" value="sim" checked>
+                                <span>Sim! Estarei lá ✨</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="attendance" value="nao">
+                                <span>Infelizmente não poderei ❤️</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guestCompanions"><i class="fas fa-users"></i> Número total de pessoas (incluindo
+                            você)</label>
+                        <select id="guestCompanions" class="form-control">
+                            <option value="1 Pessoa">Apenas 1 Pessoa</option>
+                            <option value="2 Pessoas">2 Pessoas</option>
+                            <option value="3 Pessoas">3 Pessoas</option>
+                            <option value="4 Pessoas">4 Pessoas</option>
+                            <option value="5+ Pessoas">5 ou mais pessoas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guestNote"><i class="fas fa-heart"></i> Mensagem Carinhosa para a Alyce</label>
+                        <textarea id="guestNote" class="form-control" rows="3"
+                            placeholder="Deixe um recado especial de felicitações..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-royal btn-whatsapp">
+                        <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i> Confirmar Presença via WhatsApp
+                    </button>
+                </form>
+            </section>
+
+            <!-- MURAL DE RECADOS E FELICITAÇÕES -->
+            <section class="wishes-section">
+                <h2 class="section-title">
+                    <span>Mural de Carinho</span>
+                </h2>
+                <p style="text-align: center; color: var(--pink-soft); font-size: 0.95rem;">
+                    Deixe uma mensagem inesquecível para a nossa debutante Princesa Alyce!
+                </p>
+
+                <!-- Formulário rápido para o mural -->
+                <form id="wishForm"
+                    style="max-width: 600px; margin: 25px auto 0 auto; display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <input type="text" id="wishAuthor" class="form-control" placeholder="Seu Nome"
+                            style="flex: 1; min-width: 200px;" required>
+                    </div>
+                    <textarea id="wishText" class="form-control" rows="2"
+                        placeholder="Escreva suas felicitações para Alyce..." required></textarea>
+                    <button type="submit" class="btn-royal btn-secondary-royal"
+                        style="align-self: center; width: auto; padding: 10px 30px;">
+                        <i class="fas fa-paper-plane"></i> Publicar Recado no Mural
+                    </button>
+                </form>
+
+                <!-- Grid de mensagens exibidas -->
+                <div id="wishesGrid" class="wishes-grid">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </section>
+
+            <!-- FOOTER RODAPÉ REAL -->
+            <footer class="royal-footer">
+                <div class="monogram-footer">Alyce 15 Anos</div>
+                <p>Celebração de Gala em Boston, MA - EUA</p>
+                <p style="color: var(--gold-light); font-size: 0.8rem; margin-top: 10px;">
+                    15.05.2027 • Desenvolvido especialmente para Alyce Rios do Carmo
+                </p>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- Scripts JavaScript -->
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

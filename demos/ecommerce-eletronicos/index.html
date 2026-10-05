@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Tech — Smart Electronics Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --bg: #090d16;
+      --surface: #111827;
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    
+    /* Header */
+    .store-header { background: rgba(17,24,39,0.95); backdrop-filter: blur(10px); padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.08); position: sticky; top: 0; z-index: 1000; }
+    .header-grid { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .search-input { width: 100%; max-width: 450px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 10px 16px; border-radius: 30px; color: #fff; outline:none; }
+    
+    /* Products */
+    .prod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 40px; }
+    .prod-card { background: var(--surface); border: 1px solid rgba(255,255,255,0.07); border-radius: 16px; padding: 20px; transition: all 0.3s; position: relative; display: flex; flex-direction: column; }
+    .prod-card:hover { transform: translateY(-4px); border-color: var(--cyan); box-shadow: 0 10px 30px rgba(6,182,212,0.2); }
+    .prod-img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 16px; background: #1e293b; }
+    .prod-badge { position: absolute; top: 12px; left: 12px; background: #ef4444; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+    .prod-price { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--cyan); margin: 8px 0; }
+    
+    .btn-buy { background: linear-gradient(135deg, var(--blue), var(--cyan)); color: #fff; border:none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: auto; transition: all 0.2s; }
+    .btn-buy:hover { opacity: 0.9; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+  
+<div style="background:linear-gradient(90deg,#0a0f1e,#1e293b);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:999999;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="background:#2563eb;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">DEMO ENTRE SITES</span>
+    <span style="font-weight:600;">E-commerce de Eletrônicos (Nexus Tech)</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="../../index.html" style="color:#94a3b8;text-decoration:none;display:flex;align-items:center;gap:4px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">
+      <i class="fas fa-arrow-left"></i> Voltar ao Entre Sites
+    </a>
+    <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Adorei%20a%20demonstra%C3%A7%C3%A3o%20de%20E-commerce%20de%20Eletr%C3%B4nicos%20(Nexus%20Tech)%20e%20quero%20um%20site%20nesse%20estilo!" target="_blank" style="background:#25d366;color:#fff;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 2px 10px rgba(37,211,102,0.3);">
+      <i class="fab fa-whatsapp"></i> Quero um Site Assim
+    </a>
+  </div>
+</div>
+
+
+  <header class="store-header">
+    <div class="container header-grid">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;display:flex;align-items:center;gap:8px;">
+        <i class="fas fa-bolt" style="color:var(--cyan);"></i> NEXUS<span style="color:var(--cyan);">TECH</span>
+      </div>
+
+      <input type="text" class="search-input" placeholder="Buscar smartwatch, fones, drones..." oninput="filtrarProdutos(this.value)">
+
+      <div style="display:flex;align-items:center;gap:16px;">
+        <button onclick="abrirCarrinho()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:8px 16px;border-radius:20px;cursor:pointer;display:flex;align-items:center;gap:8px;font-weight:600;">
+          <i class="fas fa-shopping-cart"></i> Carrinho (<span id="techCartCount">0</span>)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <section style="padding:40px 0 20px;">
+    <div class="container">
+      <div style="background:linear-gradient(135deg,#1e3a8a,#0f172a);border-radius:20px;padding:40px;border:1px solid rgba(59,130,246,0.3);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;">
+        <div>
+          <span style="background:rgba(6,182,212,0.2);color:var(--cyan);font-weight:700;padding:4px 12px;border-radius:20px;font-size:0.8rem;">MEGA OFERTA TECH</span>
+          <h1 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);margin:12px 0;">Fones Ultra ANC Noise Cancelling Pro</h1>
+          <p style="color:var(--text-muted);margin-bottom:20px;">Bateria de 50 horas, áudio espacial 3D e isolamento acústico ativo militar.</p>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:800;color:var(--cyan);margin-bottom:20px;">
+            R$ 299,00 <span style="font-size:1rem;color:var(--text-muted);text-decoration:line-through;">R$ 499,00</span>
+          </div>
+          <button class="btn-buy" onclick="adicionarProduto('Fone Ultra ANC Noise Cancelling Pro', 299)" style="padding:14px 28px;display:inline-flex;">
+            <i class="fas fa-shopping-bag"></i> Garantir com 40% OFF
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vitrine -->
+  <section style="padding:40px 0 100px;">
+    <div class="container">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;">🔥 Destaques da Semana</h2>
+
+      <div class="prod-grid" id="produtosGrid">
+        <div class="prod-card" data-title="smartwatch ultra gps titanium">
+          <span class="prod-badge">-30%</span>
+          <img src="../../assets/images/demo-eletronicos.jpg" class="prod-img" alt="Smartwatch Ultra Titanium" onerror="this.src='../../assets/images/logo.jpg'">
+          <h3 style="font-size:1.1rem;margin-bottom:4px;">Smartwatch Ultra Titanium GPS</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">Resistente a 50m de profundidade, monitor cardíaco e bateria para 14 dias.</p>
+          <div class="prod-price">R$ 389,00</div>
+          <button class="btn-buy" onclick="adicionarProduto('Smartwatch Ultra Titanium GPS', 389)"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="prod-card" data-title="drone 4k pro gimbal estabilizado">
+          <span class="prod-badge">-25%</span>
+          <img src="../../assets/images/demo-eletronicos.jpg" class="prod-img" alt="Drone 4K Pro" onerror="this.src='../../assets/images/logo.jpg'">
+          <h3 style="font-size:1.1rem;margin-bottom:4px;">Drone Explorer 4K Gimbal 3 Eixos</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">Câmera 4K HDR, alcance de 8km e retorno automático inteligente.</p>
+          <div class="prod-price">R$ 890,00</div>
+          <button class="btn-buy" onclick="adicionarProduto('Drone Explorer 4K Gimbal', 890)"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+        </div>
+
+        <div class="prod-card" data-title="teclado mecanico rgb switch optical">
+          <span class="prod-badge">-20%</span>
+          <img src="../../assets/images/demo-eletronicos.jpg" class="prod-img" alt="Teclado Gamer Mecânico" onerror="this.src='../../assets/images/logo.jpg'">
+          <h3 style="font-size:1.1rem;margin-bottom:4px;">Teclado Mecânico RGB Hot-Swap</h3>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:8px;">Switches ópticos lineares, keycaps PBT double-shot e conexão sem fio.</p>
+          <div class="prod-price">R$ 249,00</div>
+          <button class="btn-buy" onclick="adicionarProduto('Teclado Mecanico RGB Hot-Swap', 249)"><i class="fas fa-cart-plus"></i> Adicionar ao Carrinho</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal Carrinho -->
+  <div id="techCartModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:var(--surface);border-radius:16px;max-width:500px;width:100%;padding:28px;border:1px solid rgba(255,255,255,0.1);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;">Carrinho de Compras</h3>
+        <button onclick="fecharCarrinho()" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;">&times;</button>
+      </div>
+
+      <div id="techCartList" style="margin-bottom:20px;max-height:220px;overflow-y:auto;"></div>
+
+      <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:16px;margin-bottom:20px;display:flex;justify-content:space-between;font-weight:700;font-size:1.2rem;">
+        <span>Total:</span>
+        <span style="color:var(--cyan);" id="techCartTotalVal">R$ 0,00</span>
+      </div>
+
+      <button onclick="finalizarCompraTech()" style="width:100%;background:#25d366;color:#fff;border:none;padding:14px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <i class="fab fa-whatsapp"></i> Finalizar Compra via WhatsApp / Pix
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let techCart = [];
+
+    function adicionarProduto(nome, preco) {
+      techCart.push({ nome, preco });
+      atualizarTechCart();
+      abrirCarrinho();
+    }
+
+    function atualizarTechCart() {
+      document.getElementById('techCartCount').innerText = techCart.length;
+      const total = techCart.reduce((sum, i) => sum + i.preco, 0);
+      document.getElementById('techCartTotalVal').innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+
+      const list = document.getElementById('techCartList');
+      if (techCart.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-muted);">Nenhum produto no carrinho.</p>';
+      } else {
+        list.innerHTML = techCart.map((item, idx) => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem;">
+            <span>${item.nome}</span>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="color:var(--cyan);font-weight:700;">R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+              <button onclick="removerTechItem(${idx})" style="background:none;border:none;color:#ef4444;cursor:pointer;"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function removerTechItem(idx) {
+      techCart.splice(idx, 1);
+      atualizarTechCart();
+    }
+
+    function abrirCarrinho() { document.getElementById('techCartModal').style.display = 'flex'; }
+    function fecharCarrinho() { document.getElementById('techCartModal').style.display = 'none'; }
+
+    function finalizarCompraTech() {
+      if (techCart.length === 0) return alert('Adicione ao menos 1 item!');
+      const total = techCart.reduce((sum, i) => sum + i.preco, 0);
+      let wa = '⚡ *NOVO PEDIDO - NEXUS TECH STORE*\n\n';
+      techCart.forEach(i => wa += '• ' + i.nome + ' (R$ ' + i.preco.toFixed(2).replace('.', ',') + ')\n');
+      wa += '\n💰 *Total:* R$ ' + total.toFixed(2).replace('.', ',') + '\n';
+      wa += 'Gostaria de fechar o pedido e gerar o código Pix!';
+      window.open('https://wa.me/5533999483324?text=' + encodeURIComponent(wa), '_blank');
+    }
+
+    function filtrarProdutos(termo) {
+      const cards = document.querySelectorAll('.prod-card');
+      cards.forEach(c => {
+        const title = c.dataset.title;
+        c.style.display = title.includes(termo.toLowerCase()) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

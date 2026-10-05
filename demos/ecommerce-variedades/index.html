@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aura Boutique — Moda, Beleza & Lifestyle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #18181b;
+      --accent: #a18a68;
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #27272a;
+      --text-muted: #71717a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+    
+    .nav-aura { padding: 24px 0; border-bottom: 1px solid #e4e4e7; background: #fff; text-align: center; }
+    .logo-aura { font-family: 'Tenor Sans', sans-serif; font-size: 2rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--primary); }
+    
+    .hero-aura { padding: 80px 20px; text-align: center; background: #f4f4f5; }
+    .hero-title { font-family: 'Tenor Sans', sans-serif; font-size: clamp(2.2rem, 5vw, 3.5rem); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+    
+    .grid-aura { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; margin-top: 40px; }
+    .card-aura { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #e4e4e7; transition: all 0.3s; display: flex; flex-direction: column; }
+    .card-aura:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+    .img-aura { width: 100%; height: 320px; object-fit: cover; background: #e4e4e7; }
+    
+    .btn-aura { background: var(--primary); color: #fff; border:none; padding: 12px 24px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .btn-aura:hover { background: var(--accent); }
+  </style>
+</head>
+<body>
+  
+<div style="background:linear-gradient(90deg,#0a0f1e,#1e293b);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:999999;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="background:#2563eb;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">DEMO ENTRE SITES</span>
+    <span style="font-weight:600;">E-commerce de Moda & Beleza (Aura Boutique)</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="../../index.html" style="color:#94a3b8;text-decoration:none;display:flex;align-items:center;gap:4px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">
+      <i class="fas fa-arrow-left"></i> Voltar ao Entre Sites
+    </a>
+    <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Adorei%20a%20demonstra%C3%A7%C3%A3o%20de%20E-commerce%20de%20Moda%20%26%20Beleza%20(Aura%20Boutique)%20e%20quero%20um%20site%20nesse%20estilo!" target="_blank" style="background:#25d366;color:#fff;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 2px 10px rgba(37,211,102,0.3);">
+      <i class="fab fa-whatsapp"></i> Quero um Site Assim
+    </a>
+  </div>
+</div>
+
+
+  <header class="nav-aura">
+    <div class="logo-aura">AURA BOUTIQUE</div>
+    <div style="font-size:0.75rem;letter-spacing:0.2em;color:var(--text-muted);text-transform:uppercase;margin-top:4px;">Alta Alfaiataria & Cosméticos Glow</div>
+  </header>
+
+  <section class="hero-aura">
+    <div class="container">
+      <div style="font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Nova Coleção 2026</div>
+      <h1 class="hero-title">Elegância Atemporal & Sofisticação</h1>
+      <p style="color:var(--text-muted);max-width:550px;margin:0 auto 24px;">Peças desenhadas para mulheres que valorizam tecidos nobres, caimento impecável e presença marcante.</p>
+    </div>
+  </section>
+
+  <!-- Vitrine -->
+  <section style="padding:60px 0 100px;">
+    <div class="container">
+      <div class="grid-aura">
+        <div class="card-aura">
+          <img src="../../demos/aniversario/assets/alyce_real.jpg" class="img-aura" alt="Vestido de Seda">
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;">Vestidos de Gala</div>
+            <h3 style="font-family:'Tenor Sans',sans-serif;font-size:1.2rem;margin:6px 0;">Vestido Longo em Seda Pura Emerald</h3>
+            <div style="font-size:1.3rem;font-weight:700;margin:10px 0;">R$ 489,00</div>
+            <button class="btn-aura" onclick="comprarModa('Vestido Longo em Seda Pura Emerald', 'R$ 489,00')" style="margin-top:auto;">
+              <i class="fab fa-whatsapp"></i> Comprar no WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="card-aura">
+          <img src="../../demos/aniversario/assets/boston_ballroom.png" class="img-aura" alt="Conjunto Alfaiataria">
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;">Alfaiataria Premium</div>
+            <h3 style="font-family:'Tenor Sans',sans-serif;font-size:1.2rem;margin:6px 0;">Blazer Oversized Linho Natural</h3>
+            <div style="font-size:1.3rem;font-weight:700;margin:10px 0;">R$ 359,00</div>
+            <button class="btn-aura" onclick="comprarModa('Blazer Oversized Linho Natural', 'R$ 359,00')" style="margin-top:auto;">
+              <i class="fab fa-whatsapp"></i> Comprar no WhatsApp
+            </button>
+          </div>
+        </div>
+
+        <div class="card-aura">
+          <img src="../../demos/aniversario/assets/floral_frame.png" class="img-aura" alt="Sérum Facial Gold">
+          <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;">Skincare & Glow</div>
+            <h3 style="font-family:'Tenor Sans',sans-serif;font-size:1.2rem;margin:6px 0;">Sérum Facial Ouro 24k & Ácido Hialurônico</h3>
+            <div style="font-size:1.3rem;font-weight:700;margin:10px 0;">R$ 189,00</div>
+            <button class="btn-aura" onclick="comprarModa('Serum Facial Ouro 24k', 'R$ 189,00')" style="margin-top:auto;">
+              <i class="fab fa-whatsapp"></i> Comprar no WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#18181b;color:#a1a1aa;padding:40px 0;text-align:center;font-size:0.85rem;">
+    <div class="container">
+      <div style="font-family:'Tenor Sans',sans-serif;font-size:1.4rem;color:#fff;letter-spacing:0.2em;margin-bottom:8px;">AURA BOUTIQUE</div>
+      <p>Entregas para todo o Brasil com frete segurado.</p>
+      <div style="margin-top:16px;font-size:0.75rem;">
+        Desenvolvido por <a href="../../index.html" style="color:#fff;text-decoration:none;">Entre Sites</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function comprarModa(produto, preco) {
+      let wa = '👗 *AURA BOUTIQUE - NOVO PEDIDO*\n\n';
+      wa += 'Quero adquirir o produto: *' + produto + '* (' + preco + ')\n';
+      wa += 'Poderiam me informar sobre prazos de entrega e tamanhos disponíveis?';
+      window.open('https://wa.me/5533999483324?text=' + encodeURIComponent(wa), '_blank');
+    }
+  </script>
+</body>
+</html>

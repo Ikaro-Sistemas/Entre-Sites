@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BellaVitta — Estética Avançada & Dermatologia</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --teal: #0d9488;
+      --teal-dark: #0f766e;
+      --gold: #d97706;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    
+    .clinica-hero {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 100%);
+      border-bottom: 1px solid #ccfbf1;
+    }
+    .hero-flex { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 48px; align-items: center; }
+    .badge-clinica { display: inline-flex; align-items:center; gap: 8px; background: #ccfbf1; color: var(--teal-dark); padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 16px; }
+    .title-clinica { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 4.5vw, 3.4rem); font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+    
+    .btn-clinica { display: inline-flex; align-items: center; gap: 8px; background: var(--teal); color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 15px rgba(13,148,136,0.3); border:none; cursor:pointer; }
+    .btn-clinica:hover { background: var(--teal-dark); transform: translateY(-2px); }
+    
+    .proc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 40px; }
+    .proc-card { background: var(--surface); border: 1px solid #e2e8f0; border-radius: 16px; padding: 28px; transition: all 0.3s; position: relative; overflow: hidden; }
+    .proc-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); border-color: var(--teal); }
+    .proc-icon { width: 50px; height: 50px; border-radius: 12px; background: #ccfbf1; color: var(--teal); display: flex; align-items:center; justify-content:center; font-size: 1.3rem; margin-bottom: 16px; }
+    
+    @media(max-width: 850px) {
+      .hero-flex { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  
+<div style="background:linear-gradient(90deg,#0a0f1e,#1e293b);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;font-family:sans-serif;font-size:0.85rem;border-bottom:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:999999;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span style="background:#2563eb;color:#fff;padding:2px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">DEMO ENTRE SITES</span>
+    <span style="font-weight:600;">Clínica BellaVitta (Estética Avançada)</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="../../index.html" style="color:#94a3b8;text-decoration:none;display:flex;align-items:center;gap:4px;transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#94a3b8'">
+      <i class="fas fa-arrow-left"></i> Voltar ao Entre Sites
+    </a>
+    <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Adorei%20a%20demonstra%C3%A7%C3%A3o%20de%20Cl%C3%ADnica%20BellaVitta%20(Est%C3%A9tica%20Avan%C3%A7ada)%20e%20quero%20um%20site%20nesse%20estilo!" target="_blank" style="background:#25d366;color:#fff;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 2px 10px rgba(37,211,102,0.3);">
+      <i class="fab fa-whatsapp"></i> Quero um Site Assim
+    </a>
+  </div>
+</div>
+
+
+  <!-- Hero -->
+  <section class="clinica-hero">
+    <div class="container">
+      <div class="hero-flex">
+        <div>
+          <div class="badge-clinica"><i class="fas fa-sparkles"></i> DERMATOLOGIA & ESTÉTICA DE ALTA PERFORMANCE</div>
+          <h1 class="title-clinica">Realce Sua Beleza Natural com <span style="color:var(--teal);">Protocolos Exclusivos</span></h1>
+          <p style="color:var(--text-muted);font-size:1.05rem;margin-bottom:30px;">
+            Harmonização facial com naturalidade, rejuvenescimento celular, Lavieen e Ultraformer MPT com tecnologia médica de ponta e equipe médica especializada.
+          </p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o%20na%20Cl%C3%ADnica%20BellaVitta." target="_blank" class="btn-clinica">
+              <i class="fab fa-whatsapp"></i> Agendar Avaliação no WhatsApp
+            </a>
+            <a href="#procedimentos" class="btn-clinica" style="background:#fff;color:var(--teal);border:1px solid var(--teal);box-shadow:none;">
+              <i class="fas fa-list"></i> Ver Procedimentos
+            </a>
+          </div>
+          <div style="margin-top:36px;display:flex;gap:24px;color:var(--text-muted);font-size:0.85rem;">
+            <div><i class="fas fa-check-circle" style="color:var(--teal);"></i> +4.500 Procedimentos</div>
+            <div><i class="fas fa-check-circle" style="color:var(--teal);"></i> CRM / RQE Registrados</div>
+            <div><i class="fas fa-check-circle" style="color:var(--teal);"></i> Resultados Naturais</div>
+          </div>
+        </div>
+
+        <div>
+          <img src="../../assets/images/demo-clinica.jpg" alt="Clínica BellaVitta" style="width:100%;border-radius:24px;box-shadow:0 20px 40px rgba(0,0,0,0.1);object-fit:cover;" onerror="this.src='../../demos/aniversario/assets/alyce_real.jpg'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Procedimentos -->
+  <section id="procedimentos" style="padding:80px 0;">
+    <div class="container">
+      <div style="text-align:center;max-width:650px;margin:0 auto 40px;">
+        <span style="color:var(--teal);font-weight:700;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;">Tratamentos Médicos</span>
+        <h2 style="font-family:'Playfair Display',serif;font-size:2.4rem;margin:8px 0 16px;">Protocolos Mais Desejados</h2>
+        <p style="color:var(--text-muted);">Procedimentos minimamente invasivos planejados sob medida para as características únicas do seu rosto e corpo.</p>
+      </div>
+
+      <div class="proc-grid">
+        <div class="proc-card">
+          <div class="proc-icon"><i class="fas fa-magic"></i></div>
+          <h3 style="font-size:1.2rem;margin-bottom:8px;">Harmonização Facial Natural</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:16px;">Preenchimento estratégico com ácido hialurônico para recuperar contornos e jovialidade sem exageros.</p>
+          <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Quero%20saber%20valores%20da%20Harmoniza%C3%A7%C3%A3o%20Facial." target="_blank" style="color:var(--teal);font-weight:700;text-decoration:none;font-size:0.85rem;">Consultar Valores no WhatsApp &rarr;</a>
+        </div>
+
+        <div class="proc-card">
+          <div class="proc-icon"><i class="fas fa-gem"></i></div>
+          <h3 style="font-size:1.2rem;margin-bottom:8px;">Ultraformer MPT (Ultrassom Microfocado)</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:16px;">Efeito lifting imediato e estímulo profundo de colágeno sem cortes e sem necessidade de repouso.</p>
+          <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Quero%20saber%20sobre%20o%20Ultraformer%20MPT." target="_blank" style="color:var(--teal);font-weight:700;text-decoration:none;font-size:0.85rem;">Consultar Valores no WhatsApp &rarr;</a>
+        </div>
+
+        <div class="proc-card">
+          <div class="proc-icon"><i class="fas fa-sun"></i></div>
+          <h3 style="font-size:1.2rem;margin-bottom:8px;">Lavieen (Laser BB Cream)</h3>
+          <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:16px;">Tratamento de manchas, melasma, poros dilatados e textura com efeito pele de porcelana glow.</p>
+          <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Quero%20saber%20sobre%20o%20Laser%20Lavieen." target="_blank" style="color:var(--teal);font-weight:700;text-decoration:none;font-size:0.85rem;">Consultar Valores no WhatsApp &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agendamento CTA -->
+  <section style="background:var(--teal);color:#fff;padding:60px 0;text-align:center;">
+    <div class="container" style="max-width:700px;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:16px;">Agende Sua Consulta Avaliativa</h2>
+      <p style="font-size:1rem;margin-bottom:30px;opacity:0.9;">Atendimento exclusivo com hora marcada em consultório de alto padrão.</p>
+      <a href="https://wa.me/5533999483324?text=Ol%C3%A1!%20Gostaria%20de%20agendar%20um%20hor%C3%A1rio%20na%20BellaVitta." target="_blank" class="btn-clinica" style="background:#fff;color:var(--teal);">
+        <i class="fab fa-whatsapp"></i> Falar no WhatsApp da Recepção
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background:#0f172a;color:#94a3b8;padding:40px 0;text-align:center;font-size:0.85rem;">
+    <div class="container">
+      <div style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;margin-bottom:8px;">BellaVitta Clínica Médica</div>
+      <p>Responsável Técnica: Dra. Camila Vasconcelos — CRM 54.321 / RQE 12.345</p>
+      <div style="margin-top:20px;font-size:0.75rem;">
+        Demonstração desenvolvida por <a href="../../index.html" style="color:var(--teal);text-decoration:none;">Entre Sites</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
