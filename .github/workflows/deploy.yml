@@ -16,18 +16,43 @@ jobs:
         with:
           fetch-depth: 2
 
+      - name: 🔍 Validar Credenciais de Deploy
+        run: |
+          echo "Verificando se os secrets estão preenchidos..."
+          if [ -z "${{ secrets.FTP_SERVER || secrets.FTP_HOST }}" ]; then
+            echo "❌ ERRO: Secret FTP_SERVER (ou FTP_HOST) está vazio no GitHub Settings!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.FTP_USERNAME || secrets.FTP_USER }}" ]; then
+            echo "❌ ERRO: Secret FTP_USERNAME (ou FTP_USER) está vazio no GitHub Settings!"
+            exit 1
+          fi
+          if [ -z "${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}" ]; then
+            echo "❌ ERRO: Secret FTP_PASSWORD (ou FTP_PASS) está vazio no GitHub Settings!"
+            exit 1
+          fi
+          echo "✅ Credenciais detectadas com sucesso!"
+
       - name: 🚀 Subir arquivos para o servidor HostGator (public_html)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
           server-dir: ${{ secrets.FTP_REMOTE_ROOT || 'public_html/' }}
           protocol: ftp
           port: 21
+          timeout: 90000
+          log-level: verbose
+          dangerous-clean-slate: false
           exclude: |
             **/.git*
             **/.git*/**
             README.md
             .github/**
             .gitignore
+
+      - name: ✅ Confirmação de Sucesso
+        run: |
+          echo "🎉 Deploy finalizado com sucesso para HostGator!"
+          echo "🌐 Acesse: https://entresites.com"
