@@ -8,50 +8,50 @@ on:
 
 jobs:
   web-deploy:
-    name: 🌐 Sincronizar Arquivos com HostGator
+    name: 🌐 Sincronizar Arquivos com HostGator (50.6.184.19)
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Obter código do repositório
         uses: actions/checkout@v4
 
-      - name: 🔍 Validar e Diagnosticar Conexão FTP
+      - name: 📦 Instalar LFTP
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y lftp
+
+      - name: 🚀 Sincronizar Arquivos com HostGator
         env:
-          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST }}
-          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
+          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'ikaror83' }}
           FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
           FTP_DIR: ${{ secrets.FTP_REMOTE_ROOT || 'public_html' }}
         run: |
-          sudo apt-get update -y && sudo apt-get install -y lftp
+          echo "🌐 Conectando diretamente ao IP da HostGator: $FTP_HOST"
+          echo "👤 Usuário: $FTP_USER"
           
-          echo "=== DIAGNÓSTICO DE CONEXÃO HOSTGATOR ==="
-          echo "Host FTP configurado: $FTP_HOST"
-          echo "Usuário configurado (primeiros caracteres): ${FTP_USER:0:3}***"
-          echo "Diretório Alvo: $FTP_DIR"
-          
-          # Testa DNS / Ping
-          getent hosts "$FTP_HOST" || echo "⚠️ Aviso: Não foi possível resolver DNS para $FTP_HOST"
-          
-          echo "=== TESTANDO LOGIN FTP ==="
-          lftp -d -c "
+          # Remove barras redundantes
+          TARGET_DIR=$(echo "$FTP_DIR" | sed 's|^/||;s|/$||')
+          if [ -z "$TARGET_DIR" ]; then TARGET_DIR="public_html"; fi
+          echo "📁 Diretório Alvo: $TARGET_DIR"
+
+          lftp -c "
             set ftp:ssl-allow yes;
             set ftp:ssl-force no;
             set ftp:ssl-protect-data no;
             set ssl:verify-certificate no;
             set ftp:passive-mode true;
-            set net:timeout 15;
-            set net:max-retries 1;
+            set net:timeout 30;
+            set net:max-retries 3;
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            ls;
-            mkdir -p $FTP_DIR || true;
-            mirror --reverse --verbose \
+            mkdir -p $TARGET_DIR || true;
+            mirror --reverse --verbose --delete-first \
               --exclude-glob .git* \
               --exclude-glob .git/** \
               --exclude-glob .github/** \
               --exclude-glob README.md \
-              ./ $FTP_DIR/
+              ./ $TARGET_DIR/
           "
-          
-      - name: ✅ Deploy Finalizado
+
+      - name: ✅ Confirmação de Sucesso
         run: |
-          echo "🎉 Processo concluído!"
+          echo "🎉 Deploy finalizado com sucesso para a HostGator!"
           echo "🌐 Acesse: https://entresites.com"
