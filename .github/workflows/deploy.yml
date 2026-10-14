@@ -241,7 +241,7 @@ jobs:
           echo "✅ Arquivos transferidos com sucesso!"
 
       - name: 🔄 Limpar Cache WordPress via SSH
-        if: ${{ (secrets.SSH_HOST != '' || secrets.SSH_SERVER != '') && github.event.inputs.clear_cache != 'false' }}
+        if: github.event.inputs.clear_cache != 'false'
         env:
           SSH_HOST: ${{ secrets.SSH_HOST || secrets.SSH_SERVER || secrets.FTP_HOST || secrets.FTP_SERVER }}
           SSH_USER: ${{ secrets.SSH_USER || secrets.SSH_USERNAME || secrets.FTP_USERNAME }}
