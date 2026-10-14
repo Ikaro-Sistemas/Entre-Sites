@@ -12,12 +12,12 @@ jobs:
     name: Sincronizar Arquivos com HostGator
     runs-on: ubuntu-latest
     steps:
-      - name: 🚚 Obter código do repositório
+      - name: "Obter código do repositório"
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: 🔍 Diagnóstico e Teste de Conexão com HostGator
+      - name: "Diagnóstico e Teste de Conexão com HostGator"
         env:
           FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
           FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
@@ -64,10 +64,9 @@ jobs:
           echo "--------------------------------------------------"
           echo "🔑 Teste 2: Validação de Login via FTP/FTPS"
           echo "--------------------------------------------------"
-          # Testa login no servidor FTP e mostra as respostas do servidor (sem exibir a senha)
           curl -v -m 15 -k --ftp-ssl -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/" 2>&1 | grep -E "(220|230|234|331|530|Connected|Authentication)" || true
 
-      - name: 🚀 Deploy para HostGator (Método 1: FTP-Deploy-Action)
+      - name: "Deploy para HostGator via FTP-Deploy-Action"
         id: ftp_action
         continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -89,7 +88,7 @@ jobs:
             wp-config*
             node_modules/**
 
-      - name: 🚀 Deploy de Contingência via LFTP (se Método 1 falhar)
+      - name: "Deploy de Contingência via LFTP"
         if: steps.ftp_action.outcome == 'failure'
         env:
           FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
@@ -101,26 +100,26 @@ jobs:
           echo "=================================================="
           sudo apt-get update -y -qq && sudo apt-get install -y -qq lftp
           
-          lftp -e "
-            set ftp:ssl-allow yes;
-            set ftp:ssl-force no;
-            set ftp:ssl-protect-data no;
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
-            set net:timeout 60;
-            set net:max-retries 3;
-            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            mirror --reverse --verbose --parallel=3 \
-              --exclude-glob .git \
-              --exclude-glob .git/** \
-              --exclude-glob .github \
-              --exclude-glob .github/** \
-              --exclude-glob README.md \
-              --exclude-glob *.md \
-              --exclude-glob .env* \
-              --exclude-glob wp-config* \
-              --exclude-glob **/node_modules/** \
-              ./ .;
-            quit;
-          "
+          lftp << EOF
+          set ftp:ssl-allow yes
+          set ftp:ssl-force no
+          set ftp:ssl-protect-data no
+          set ssl:verify-certificate no
+          set ftp:passive-mode true
+          set net:timeout 60
+          set net:max-retries 3
+          open -u "$FTP_USER","$FTP_PASS" "$FTP_HOST"
+          mirror --reverse --verbose --parallel=3 \
+            --exclude-glob .git \
+            --exclude-glob .git/** \
+            --exclude-glob .github \
+            --exclude-glob .github/** \
+            --exclude-glob README.md \
+            --exclude-glob *.md \
+            --exclude-glob .env* \
+            --exclude-glob wp-config* \
+            --exclude-glob **/node_modules/** \
+            ./ ./
+          quit
+          EOF
           echo "✅ Deploy via LFTP concluído com sucesso!"
