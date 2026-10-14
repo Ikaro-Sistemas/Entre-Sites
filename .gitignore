@@ -1,0 +1,119 @@
+# ═══════════════════════════════════════════════════════════════
+#  .gitignore — WordPress + Elementor Pro + WooCommerce
+#  Site: entresites.com | Hospedagem: HostGator
+# ═══════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────
+# 🔒 ARQUIVOS SENSÍVEIS (NUNCA commitar!)
+# ─────────────────────────────────────────
+wp-config.php
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+auth.json
+
+# ─────────────────────────────────────────
+# 📁 UPLOADS DE USUÁRIOS (muito grandes)
+# ─────────────────────────────────────────
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/blogs.dir/
+
+# ─────────────────────────────────────────
+# 🗑️ CACHE (gerado automaticamente)
+# ─────────────────────────────────────────
+wp-content/cache/
+wp-content/et-cache/
+wp-content/advanced-cache.php
+wp-content/uploads/elementor/css/
+wp-content/uploads/elementor/tmp/
+
+# WooCommerce caches
+wp-content/uploads/woocommerce_uploads/
+wp-content/uploads/wc-logs/
+
+# ─────────────────────────────────────────
+# 🔌 PLUGINS (gerencie via composer ou liste manualmente)
+# ─────────────────────────────────────────
+# Descomente se quiser ignorar TODOS os plugins:
+# wp-content/plugins/
+
+# Plugins que NÃO devem ir para o repositório (ex: licenciados):
+# wp-content/plugins/elementor-pro/
+# wp-content/plugins/woocommerce/
+
+# ─────────────────────────────────────────
+# 📦 DEPENDÊNCIAS DE BUILD
+# ─────────────────────────────────────────
+node_modules/
+**/node_modules/
+vendor/
+.sass-cache/
+.cache/
+
+# ─────────────────────────────────────────
+# 📝 LOGS E DEBUG
+# ─────────────────────────────────────────
+*.log
+debug.log
+wp-content/debug.log
+error_log
+php_errorlog
+
+# ─────────────────────────────────────────
+# 💻 SISTEMA OPERACIONAL
+# ─────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+ehthumbs.db
+
+# ─────────────────────────────────────────
+# 🛠️ EDITORES E IDEs
+# ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.sublime-workspace
+
+# ─────────────────────────────────────────
+# 🏗️ BUILD ARTIFACTS
+# ─────────────────────────────────────────
+*.map
+package-lock.json
+yarn.lock
+composer.lock
+
+# ─────────────────────────────────────────
+# 🔄 BACKUPS
+# ─────────────────────────────────────────
+*.bak
+*.backup
+*.bkp
+wp-content/backup*/
+updraft/
+wp-content/updraft/
+
+# ─────────────────────────────────────────
+# 🌐 WORDPRESS CORE (opcional — recomendado)
+# ─────────────────────────────────────────
+# Descomente para NÃO commitar o core do WordPress:
+# wp-admin/
+# wp-includes/
+# wp-*.php
+# xmlrpc.php
+# license.txt
+# readme.html
+# wp-config-sample.php
+
+# ─────────────────────────────────────────
+# 📋 ARQUIVOS DE CONFIGURAÇÃO LOCAL
+# ─────────────────────────────────────────
+wp-config-local.php
+local-config.php
+.htaccess.bkp
