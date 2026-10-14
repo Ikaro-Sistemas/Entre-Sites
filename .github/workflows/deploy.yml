@@ -1,4 +1,4 @@
-name: Deploy WordPress - HostGator (entresites.com)
+name: Deploy HostGator (entresites.com)
 
 on:
   push:
@@ -6,188 +6,33 @@ on:
       - main
       - master
   workflow_dispatch:
-    inputs:
-      full_sync:
-        description: "Sincronização completa?"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
 
 jobs:
-  validate:
-    name: Validar Código
+  web-deploy:
+    name: Sincronizar Arquivos com HostGator
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: 🚚 Obter código do repositório
         uses: actions/checkout@v4
-
-      - name: Configurar PHP 8.2
-        uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
-          coverage: none
+          fetch-depth: 2
 
-      - name: Checar Sintaxe PHP
-        run: |
-          echo "Verificando arquivos PHP..."
-          PHP_FILES=$(find . -name "*.php" -not -path "./.git/*" -not -path "*/node_modules/*" -not -path "*/vendor/*" 2>/dev/null | head -200)
-          if [ -z "$PHP_FILES" ]; then
-            echo "Nenhum arquivo PHP encontrado no repositório."
-            exit 0
-          fi
-          ERRORS=0
-          while IFS= read -r file; do
-            if ! php -l "$file" > /dev/null 2>&1; then
-              echo "ERRO de sintaxe em: $file"
-              ERRORS=$((ERRORS+1))
-            fi
-          done <<< "$PHP_FILES"
-          if [ "$ERRORS" -gt 0 ]; then
-            echo "$ERRORS arquivo(s) com erro!"
-            exit 1
-          fi
-          echo "Todos os arquivos PHP estão válidos!"
-
-      - name: Verificar Segurança
-        run: |
-          for pattern in "wp-config.php" ".env"; do
-            if find . -name "$pattern" -not -path "./.git/*" 2>/dev/null | grep -q .; then
-              echo "ATENÇÃO: '$pattern' encontrado no repositório! Adicione ao .gitignore"
-            fi
-          done
-          echo "Verificação de segurança concluída."
-
-  deploy:
-    name: Deploy para HostGator
-    runs-on: ubuntu-latest
-    needs: validate
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Instalar LFTP
-        run: |
-          sudo apt-get update -y -qq
-          sudo apt-get install -y -qq lftp
-          echo "LFTP instalado com sucesso"
-
-      - name: Deploy via FTP
-        env:
-          FTP_HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER || '50.6.184.19' }}
-          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
-          FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
-          FTP_DIR: ${{ secrets.FTP_DIR || secrets.REMOTE_ROOT || '.' }}
-          FULL_SYNC: ${{ github.event.inputs.full_sync || 'false' }}
-        run: |
-          echo "Conectando em: $FTP_HOST"
-          echo "Usuario: $FTP_USER"
-
-          # Normalizar diretório de destino
-          CLEAN_DIR=$(echo "$FTP_DIR" | sed 's|^/||;s|/$||')
-          if [ -z "$CLEAN_DIR" ] || [ "$CLEAN_DIR" = "public_html" ] || [ "$CLEAN_DIR" = "." ]; then
-            TARGET_DIR="."
-          else
-            TARGET_DIR="$CLEAN_DIR"
-          fi
-          echo "Destino remoto: $TARGET_DIR"
-
-          if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
-            echo "ERRO: Secrets FTP não configurados!"
-            echo "Vá em: GitHub > Settings > Secrets > Actions"
-            echo "Adicione: FTP_HOST (ou FTP_SERVER), FTP_USERNAME, FTP_PASSWORD"
-            exit 1
-          fi
-
-          if [ "$FULL_SYNC" = "true" ]; then
-            MIRROR_FLAGS="--reverse --verbose --parallel=4 --delete"
-            echo "Modo: COMPLETO"
-          else
-            MIRROR_FLAGS="--reverse --verbose --parallel=4"
-            echo "Modo: INCREMENTAL"
-          fi
-
-          lftp -c "
-            set ftp:ssl-allow yes;
-            set ftp:ssl-force no;
-            set ftp:ssl-protect-data no;
-            set ssl:verify-certificate no;
-            set ftp:passive-mode true;
-            set net:timeout 60;
-            set net:max-retries 3;
-            set net:reconnect-interval-base 5;
-            set net:reconnect-interval-multiplier 1;
-            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            mirror $MIRROR_FLAGS \
-              --exclude-glob .git \
-              --exclude-glob .git/** \
-              --exclude-glob .github \
-              --exclude-glob .github/** \
-              --exclude-glob .gitignore \
-              --exclude-glob README.md \
-              --exclude-glob *.md \
-              --exclude-glob .env \
-              --exclude-glob .env.* \
-              --exclude-glob wp-config.php \
-              --exclude-glob wp-config-sample.php \
-              --exclude-glob wp-content/debug.log \
-              --exclude-glob wp-content/uploads/ \
-              --exclude-glob wp-content/upgrade/ \
-              --exclude-glob wp-content/cache/ \
-              --exclude-glob wp-content/et-cache/ \
-              --exclude-glob **/node_modules/** \
-              --exclude-glob **/*.log \
-              ./ $TARGET_DIR
-          "
-          echo "Deploy concluído com sucesso!"
-
-      - name: Limpar Cache
-        continue-on-error: true
-        env:
-          SSH_HOST: ${{ secrets.SSH_HOST || secrets.FTP_HOST || secrets.FTP_SERVER }}
-          SSH_USER: ${{ secrets.SSH_USER || secrets.FTP_USERNAME }}
-          SSH_PASS: ${{ secrets.SSH_PASS || secrets.FTP_PASSWORD }}
-          SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
-          WP_PATH: ${{ secrets.WP_PATH || secrets.REMOTE_ROOT || '.' }}
-        run: |
-          if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ] || [ -z "$SSH_PASS" ]; then
-            echo "SSH não configurado - pulando limpeza de cache via SSH."
-            exit 0
-          fi
-          echo "Limpando cache via SSH..."
-          sudo apt-get install -y -qq sshpass 2>/dev/null || true
-          sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 \
-            -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
-            "cd $WP_PATH 2>/dev/null || cd .; \
-             command -v wp >/dev/null && wp cache flush --allow-root 2>/dev/null && echo 'Cache limpo!'; \
-             rm -rf wp-content/cache/* wp-content/et-cache/* 2>/dev/null; echo 'OK'" \
-            || echo "SSH indisponível - cache será regenerado no próximo acesso ao site."
-
-      - name: Relatório
-        if: always()
-        run: |
-          echo "========================================"
-          echo "  Site:   https://entresites.com"
-          echo "  Data:   $(date '+%d/%m/%Y %H:%M') UTC"
-          echo "  Commit: ${{ github.sha }}"
-          echo "  Autor:  ${{ github.actor }}"
-          echo "========================================"
-
-  notify:
-    name: Status do Deploy
-    runs-on: ubuntu-latest
-    needs: deploy
-    if: always()
-    steps:
-      - name: Sucesso
-        if: needs.deploy.result == 'success'
-        run: echo "DEPLOY OK! Site atualizado em https://entresites.com"
-
-      - name: Falha
-        if: needs.deploy.result == 'failure'
-        run: |
-          echo "DEPLOY FALHOU - verifique os logs."
-          exit 1
+      - name: 🚀 Deploy para HostGator (FTP)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
+          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
+          server-dir: ${{ secrets.FTP_REMOTE_ROOT || './' }}
+          protocol: ftp
+          port: 21
+          timeout: 60000
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            README.md
+            *.md
+            .env*
+            wp-config*
+            node_modules/**
