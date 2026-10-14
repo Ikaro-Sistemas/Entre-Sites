@@ -1,4 +1,4 @@
-﻿name: Deploy WordPress - HostGator (entresites.com)
+name: Deploy WordPress - HostGator (entresites.com)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       full_sync:
-        description: "Sincronizacao completa?"
+        description: "Sincronização completa?"
         required: false
         default: "false"
         type: choice
@@ -18,7 +18,7 @@ on:
 
 jobs:
   validate:
-    name: Validar Codigo
+    name: Validar Código
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
           echo "Verificando arquivos PHP..."
           PHP_FILES=$(find . -name "*.php" -not -path "./.git/*" -not -path "*/node_modules/*" -not -path "*/vendor/*" 2>/dev/null | head -200)
           if [ -z "$PHP_FILES" ]; then
-            echo "Nenhum arquivo PHP encontrado no repositorio."
+            echo "Nenhum arquivo PHP encontrado no repositório."
             exit 0
           fi
           ERRORS=0
@@ -49,24 +49,21 @@ jobs:
             echo "$ERRORS arquivo(s) com erro!"
             exit 1
           fi
-          echo "Todos os arquivos PHP estao validos!"
+          echo "Todos os arquivos PHP estão válidos!"
 
-      - name: Verificar Seguranca
+      - name: Verificar Segurança
         run: |
           for pattern in "wp-config.php" ".env"; do
             if find . -name "$pattern" -not -path "./.git/*" 2>/dev/null | grep -q .; then
-              echo "ATENCAO: '$pattern' encontrado no repositorio! Adicione ao .gitignore"
+              echo "ATENÇÃO: '$pattern' encontrado no repositório! Adicione ao .gitignore"
             fi
           done
-          echo "Verificacao de seguranca concluida."
+          echo "Verificação de segurança concluída."
 
   deploy:
     name: Deploy para HostGator
     runs-on: ubuntu-latest
     needs: validate
-    environment:
-      name: production
-      url: https://entresites.com
 
     steps:
       - name: Checkout
@@ -80,22 +77,27 @@ jobs:
 
       - name: Deploy via FTP
         env:
-          FTP_HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER }}
-          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          FTP_HOST: ${{ secrets.FTP_HOST || secrets.FTP_SERVER || '50.6.184.19' }}
+          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
           FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
-          FTP_DIR: ${{ secrets.FTP_DIR || secrets.REMOTE_ROOT || 'public_html' }}
+          FTP_DIR: ${{ secrets.FTP_DIR || secrets.REMOTE_ROOT || '.' }}
           FULL_SYNC: ${{ github.event.inputs.full_sync || 'false' }}
         run: |
           echo "Conectando em: $FTP_HOST"
           echo "Usuario: $FTP_USER"
 
-          TARGET_DIR=$(echo "$FTP_DIR" | sed 's|^/||;s|/$||')
-          [ -z "$TARGET_DIR" ] && TARGET_DIR="public_html"
-          echo "Destino: /$TARGET_DIR"
+          # Normalizar diretório de destino
+          CLEAN_DIR=$(echo "$FTP_DIR" | sed 's|^/||;s|/$||')
+          if [ -z "$CLEAN_DIR" ] || [ "$CLEAN_DIR" = "public_html" ] || [ "$CLEAN_DIR" = "." ]; then
+            TARGET_DIR="."
+          else
+            TARGET_DIR="$CLEAN_DIR"
+          fi
+          echo "Destino remoto: $TARGET_DIR"
 
           if [ -z "$FTP_HOST" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
-            echo "ERRO: Secrets FTP nao configurados!"
-            echo "Va em: GitHub > Settings > Secrets > Actions"
+            echo "ERRO: Secrets FTP não configurados!"
+            echo "Vá em: GitHub > Settings > Secrets > Actions"
             echo "Adicione: FTP_HOST (ou FTP_SERVER), FTP_USERNAME, FTP_PASSWORD"
             exit 1
           fi
@@ -115,11 +117,10 @@ jobs:
             set ssl:verify-certificate no;
             set ftp:passive-mode true;
             set net:timeout 60;
-            set net:max-retries 5;
+            set net:max-retries 3;
             set net:reconnect-interval-base 5;
             set net:reconnect-interval-multiplier 1;
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            mkdir -p $TARGET_DIR || true;
             mirror $MIRROR_FLAGS \
               --exclude-glob .git \
               --exclude-glob .git/** \
@@ -139,9 +140,9 @@ jobs:
               --exclude-glob wp-content/et-cache/ \
               --exclude-glob **/node_modules/** \
               --exclude-glob **/*.log \
-              ./ $TARGET_DIR/
+              ./ $TARGET_DIR
           "
-          echo "Deploy concluido com sucesso!"
+          echo "Deploy concluído com sucesso!"
 
       - name: Limpar Cache
         continue-on-error: true
@@ -150,22 +151,22 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER || secrets.FTP_USERNAME }}
           SSH_PASS: ${{ secrets.SSH_PASS || secrets.FTP_PASSWORD }}
           SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
-          WP_PATH: ${{ secrets.WP_PATH || secrets.REMOTE_ROOT || '~/public_html' }}
+          WP_PATH: ${{ secrets.WP_PATH || secrets.REMOTE_ROOT || '.' }}
         run: |
           if [ -z "$SSH_HOST" ] || [ -z "$SSH_USER" ] || [ -z "$SSH_PASS" ]; then
-            echo "SSH nao configurado - pulando limpeza de cache."
+            echo "SSH não configurado - pulando limpeza de cache via SSH."
             exit 0
           fi
           echo "Limpando cache via SSH..."
           sudo apt-get install -y -qq sshpass 2>/dev/null || true
           sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no -o ConnectTimeout=15 \
             -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
-            "cd $WP_PATH 2>/dev/null || cd ~/public_html; \
+            "cd $WP_PATH 2>/dev/null || cd .; \
              command -v wp >/dev/null && wp cache flush --allow-root 2>/dev/null && echo 'Cache limpo!'; \
              rm -rf wp-content/cache/* wp-content/et-cache/* 2>/dev/null; echo 'OK'" \
-            || echo "SSH indisponivel - cache sera regenerado no proximo acesso ao site."
+            || echo "SSH indisponível - cache será regenerado no próximo acesso ao site."
 
-      - name: Relatorio
+      - name: Relatório
         if: always()
         run: |
           echo "========================================"
