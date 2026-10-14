@@ -17,11 +17,63 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: 🚀 Deploy para HostGator (FTP)
+      - name: 🔍 Diagnóstico e Teste de Conexão com HostGator
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
+          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
+        run: |
+          echo "=================================================="
+          echo "🔍 DIAGNÓSTICO DE AMBIENTE E SECRETS (HOSTGATOR)"
+          echo "=================================================="
+          echo "Servidor de destino: $FTP_HOST"
+          echo "Usuário FTP: $FTP_USER"
+
+          SECRETS_OK=1
+
+          if [ -z "$FTP_USER" ]; then
+            echo "❌ ERRO: O secret FTP_USERNAME (ou FTP_USER) está vazio!"
+            SECRETS_OK=0
+          fi
+
+          if [ -z "$FTP_PASS" ]; then
+            echo "❌ ERRO: O secret FTP_PASSWORD (ou FTP_PASS) está vazio!"
+            echo "👉 Acesse: https://github.com/Ikaro-Sistemas/Entre-Sites/settings/secrets/actions"
+            echo "   e adicione o secret 'FTP_PASSWORD' com a senha da sua conta FTP do cPanel."
+            SECRETS_OK=0
+          else
+            echo "✅ Secret FTP_PASSWORD detectado com sucesso (${#FTP_PASS} caracteres)."
+          fi
+
+          if [ "$SECRETS_OK" -eq 0 ]; then
+            echo "Abortando execução antes da tentativa de deploy devido a secrets ausentes."
+            exit 1
+          fi
+
+          echo ""
+          echo "--------------------------------------------------"
+          echo "🌐 Teste 1: Conectividade TCP com HostGator (Porta 21)"
+          echo "--------------------------------------------------"
+          if nc -zv -w 5 "$FTP_HOST" 21 2>&1; then
+            echo "✅ Porta 21 aberta e acessível!"
+          else
+            echo "⚠️ Aviso: Porta 21 inacessível ou filtrada."
+          fi
+
+          echo ""
+          echo "--------------------------------------------------"
+          echo "🔑 Teste 2: Validação de Login via FTP/FTPS"
+          echo "--------------------------------------------------"
+          # Testa login no servidor FTP e mostra as respostas do servidor (sem exibir a senha)
+          curl -v -m 15 -k --ftp-ssl -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_HOST/" 2>&1 | grep -E "(220|230|234|331|530|Connected|Authentication)" || true
+
+      - name: 🚀 Deploy para HostGator (Método 1: FTP-Deploy-Action)
+        id: ftp_action
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
-          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER }}
+          username: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
           password: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
           server-dir: ${{ secrets.FTP_REMOTE_ROOT || './' }}
           protocol: ftp
@@ -36,3 +88,39 @@ jobs:
             .env*
             wp-config*
             node_modules/**
+
+      - name: 🚀 Deploy de Contingência via LFTP (se Método 1 falhar)
+        if: steps.ftp_action.outcome == 'failure'
+        env:
+          FTP_HOST: ${{ secrets.FTP_SERVER || secrets.FTP_HOST || '50.6.184.19' }}
+          FTP_USER: ${{ secrets.FTP_USERNAME || secrets.FTP_USER || 'action@entresites.com' }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD || secrets.FTP_PASS }}
+        run: |
+          echo "=================================================="
+          echo "🔄 Executando Deploy de Contingência via LFTP..."
+          echo "=================================================="
+          sudo apt-get update -y -qq && sudo apt-get install -y -qq lftp
+          
+          lftp -e "
+            set ftp:ssl-allow yes;
+            set ftp:ssl-force no;
+            set ftp:ssl-protect-data no;
+            set ssl:verify-certificate no;
+            set ftp:passive-mode true;
+            set net:timeout 60;
+            set net:max-retries 3;
+            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
+            mirror --reverse --verbose --parallel=3 \
+              --exclude-glob .git \
+              --exclude-glob .git/** \
+              --exclude-glob .github \
+              --exclude-glob .github/** \
+              --exclude-glob README.md \
+              --exclude-glob *.md \
+              --exclude-glob .env* \
+              --exclude-glob wp-config* \
+              --exclude-glob **/node_modules/** \
+              ./ .;
+            quit;
+          "
+          echo "✅ Deploy via LFTP concluído com sucesso!"
